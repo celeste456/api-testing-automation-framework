@@ -1,0 +1,21 @@
+2025-06-25 21:29:55 [main] INFO  com.api.filters.LoggingFilter - ======= API CALL START =======
+2025-06-25 21:29:55 [main] INFO  com.api.filters.LoggingFilter - => GET https://practice.expandtesting.com/notes/api/users/profile
+2025-06-25 21:29:55 [main] INFO  com.api.filters.LoggingFilter - Headers: x-auth-token=2822dffdc1894ab68b12e2ff161607646274331b318d45fa8904477fb0fae9ba
+Accept=*/*
+2025-06-25 21:29:57 [main] INFO  com.api.filters.LoggingFilter - Status Code: 200
+2025-06-25 21:29:57 [main] INFO  com.api.filters.LoggingFilter - Response time: 2505 ms
+2025-06-25 21:29:58 [main] INFO  com.api.filters.LoggingFilter - Response Body:
+{
+    "success": true,
+    "status": 200,
+    "message": "Profile successful",
+    "data": {
+        "id": "685c2b5a5931cf028a26430d",
+        "name": "Updated Test User",
+        "email": "celestemayherrera@gmail.com",
+        "phone": "88888888",
+        "company": "Galcom QA"
+    }
+}
+2025-06-25 21:29:58 [main] INFO  com.api.filters.LoggingFilter - ======= API CALL END =========
+
