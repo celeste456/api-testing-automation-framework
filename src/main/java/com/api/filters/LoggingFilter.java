@@ -15,7 +15,7 @@ public class LoggingFilter implements Filter {
     public Response filter(FilterableRequestSpecification requestSpec,
                            FilterableResponseSpecification responseSpec,
                            FilterContext ctx) {
-
+        long threadId = Thread.currentThread().getId();
         logger.info("======= API CALL START =======");
         logger.info("=> {} {}", requestSpec.getMethod(), requestSpec.getURI());
         logger.info("Headers: {}", requestSpec.getHeaders());

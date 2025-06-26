@@ -4,8 +4,6 @@ import com.api.models.request.UpdateProfileRequest;
 import com.api.models.responses.ProfileResponse;
 import com.api.services.UsersService;
 import io.restassured.response.Response;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.testng.annotations.Test;
 import static org.testng.Assert.*;
 
@@ -77,10 +75,4 @@ public class ProfileTests {
         assertTrue(responseBody.contains("valid phone") || responseBody.contains("invalid"), "Response should mention invalid phone");
     }
 
-    @Test
-    public void logTest() {
-        Logger logger = LogManager.getLogger("LogTest");
-        logger.info("✅ Esto debería escribirse en consola y archivo");
-        assertTrue(true); // Test dummy
-    }
 }

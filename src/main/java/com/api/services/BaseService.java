@@ -12,62 +12,74 @@ import static io.restassured.RestAssured.*;
 public class BaseService {
 
     private static final String BASE_URL = ConfigReader.get("base.url");
-    protected RequestSpecification requestSpecification;
+    private static final ThreadLocal<RequestSpecification> requestSpec = new ThreadLocal<>();
 
-    public BaseService() {
-        requestSpecification = given()
-                .baseUri(BASE_URL)
-                .filter(new LoggingFilter());
+    private static final ThreadLocal<String> authToken = ThreadLocal.withInitial(() ->
+            ConfigReader.get("auth.token")
+    );
+
+    protected RequestSpecification getRequestSpec() {
+        RequestSpecification spec = requestSpec.get();
+        if (spec == null) {
+            spec = given()
+                    .baseUri(BASE_URL)
+                    .filter(new LoggingFilter());
+            requestSpec.set(spec);
+        }
+        return spec;
+    }
+
+    public void clearSpec() {
+        requestSpec.remove();
+        authToken.remove();
     }
 
     protected Map<String, String> authHeader() {
         Map<String, String> headers = new HashMap<>();
-        headers.put("x-auth-token", ConfigReader.get("auth.token"));
+        headers.put("x-auth-token", authToken.get());
         return headers;
     }
 
     protected Response getRequest(String endpoint) {
-        return requestSpecification.get(endpoint);
+        return getRequestSpec().get(endpoint);
     }
 
     protected Response getRequest(String endpoint, Map<String, String> headers) {
-        return requestSpecification
-                .headers(headers)
-                .get(endpoint);
+        return getRequestSpec().headers(headers).get(endpoint);
     }
 
     protected Response postRequest(Object payload, String endpoint) {
-        return requestSpecification
+        return getRequestSpec()
                 .contentType(ContentType.JSON)
                 .body(payload)
                 .post(endpoint);
     }
 
     protected Response postRequest(Object payload, String endpoint, Map<String, String> headers) {
-        return requestSpecification
+        return getRequestSpec()
                 .headers(headers)
                 .contentType(ContentType.JSON)
                 .body(payload)
                 .post(endpoint);
     }
 
+    protected Response patchRequest(Object payload, String endpoint) {
+        return getRequestSpec()
+                .contentType(ContentType.JSON)
+                .body(payload)
+                .patch(endpoint);
+    }
+
     protected Response patchRequest(Object payload, String endpoint, Map<String, String> headers) {
-        return requestSpecification
+        return getRequestSpec()
                 .headers(headers)
                 .contentType(ContentType.JSON)
                 .body(payload)
                 .patch(endpoint);
     }
 
-    protected Response patchRequest(Object payload, String endpoint) {
-        return requestSpecification
-                .contentType(ContentType.JSON)
-                .body(payload)
-                .patch(endpoint);
-    }
-
     protected Response putRequest(Object payload, String endpoint, Map<String, String> headers) {
-        return requestSpecification
+        return getRequestSpec()
                 .headers(headers)
                 .contentType(ContentType.JSON)
                 .body(payload)
@@ -75,7 +87,7 @@ public class BaseService {
     }
 
     protected Response deleteRequest(String endpoint, Map<String, String> headers) {
-        return requestSpecification
+        return getRequestSpec()
                 .headers(headers)
                 .delete(endpoint);
     }
