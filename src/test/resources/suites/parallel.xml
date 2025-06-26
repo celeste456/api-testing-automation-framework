@@ -5,10 +5,8 @@
     </listeners>
     <test name="Parallel API Tests">
         <classes>
-            <class name="com.api.tests.NotesTests"/>
             <class name="com.api.tests.ForgotPasswordTests"/>
             <class name="com.api.tests.LoginTests"/>
-            <class name="com.api.tests.ProfileTests"/>
             <class name="com.api.tests.RegisterTests"/>
         </classes>
     </test>

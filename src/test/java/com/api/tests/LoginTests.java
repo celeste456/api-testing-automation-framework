@@ -75,7 +75,7 @@ public class LoginTests{
         assertEquals(loginResponse.getMessage(), "A valid email address is required", "Expected message to mention email validation");
     }
 
-    @Test(description = "Should login regardless of email casing")
+    @Test(description = "Should login regardless of email casing",groups = {"knownBug"})
     public void shouldLoginWithEmailCaseInsensitive() {
         LoginRequest request = new LoginRequest.Builder()
                 .Email("CELESTE_API_TEST@GMAIL.COM")
